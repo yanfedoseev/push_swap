@@ -1,0 +1,1 @@
+clear && make && ./push_swap 1 3 2
