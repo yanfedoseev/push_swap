@@ -9,6 +9,55 @@
 **			༺༻
 */
 
+void	display_stacks(t_stacks *stacks, t_global *g)
+{
+	t_stack	*a;
+	t_stack	*b;
+	int		diff;
+	char	*str;
+
+	a = stacks->a;
+	b = stacks->b;
+	diff = g->size_a - g->size_b;
+	if (g->size_a > g->size_b)
+	{
+		while (diff--)
+		{
+			str = ft_itoa(a->data);
+			write(1, str, strlen(str));
+			write(1, "\t\t\n", 3);
+			a = a->next;
+		}
+		
+	}
+	else if (g->size_a < g->size_b)
+	{
+		diff *= -1;
+		while (diff--)
+		{
+			str = ft_itoa(a->data);
+			write(1, "\t\t", 2);
+			write(1, str, strlen(str));
+			write(1, "\n", 1);
+			b = b->next;
+		}
+	}
+	while (a)
+	{
+		printf("%i\t\t%i\n", a->data, b->data);
+		a = a->next;
+		b = b->next;
+	}
+}
+
+void	not_error_but_bonus(t_stacks *stacks, t_global *g, char *line)
+{
+	if (!(ft_strcmp(line, "")))
+		display_stacks(stacks, g);
+	else
+		error_msg(1);
+}
+
 void	read_command(t_stacks *stacks, t_global *g, char *line)
 {
 	if (!(ft_strcmp(line, "sa")))
@@ -34,7 +83,7 @@ void	read_command(t_stacks *stacks, t_global *g, char *line)
 	else if (!(ft_strcmp(line, "rrr")))
 		command_rrr(stacks, 0, 0);
 	else
-		error_msg(1);
+		not_error_but_bonus(stacks, g, line);
 }
 
 /*
