@@ -1,60 +1,51 @@
-NAME1	= push_swap
+NAME_PS		= 	push_swap
+NAME_CH		= 	checker
 
-NAME2	= checker
+CFLAGS 		= 	-Wall -Wextra -Werror
 
-CFLAGS 	= -Wall -Wextra -Werror
-
-SRC1 	= push_swap.c validation.c commands.c \
-			my.c my_exit.c sort_3_and_5_element.c \
+SRC_PS 		= 	push_swap.c validation.c commands.c \
+				my.c my_exit.c sort_3_and_5_element.c \
 				global_sort.c finding_place.c
 
-SRC2 	= checker.c validation.c commands.c \
-			my.c my_exit.c
+SRC_CH 		= 	checker.c validation.c commands.c \
+				my.c my_exit.c
 
-OBJSFD 	= temporary
+OBJ_DIR 	= 	obj
 
-OBJS1 	= $(addprefix $(OBJSFD)/,$(SRC1:.c=.o))
+OBJ_PS 		= 	$(addprefix $(OBJ_DIR)/,$(SRC_PS:.c=.o))
 
-OBJS2 	= $(addprefix $(OBJSFD)/,$(SRC2:.c=.o))
+OBJ_CH 		= 	$(addprefix $(OBJ_DIR)/,$(SRC_CH:.c=.o))
 
-HDR 		= -I./includes
+INC 		= 	-I./includes
+LIBFT_INC 	= 	-I./includes/libft
 
-LIBFT_HDR 	= -I./includes/libft
+LIB_BINARY	= 	-L./includes/libft -lft
+LIBFT		= 	./includes/libft/libft.a
 
-LIB_BINARY	= -L./includes/libft -lft
+all: $(LIBFT) 	./includes/libft/libft.a $(NAME_PS) $(NAME_CH)
 
-LIBFT		= ./includes/libft/libft.a
+$(LIBFT):	
+	make -C ./includes/libft
 
-all: $(LIBFT) ./includes/libft/libft.a $(NAME1) $(NAME2)
-
-FORCE:		;
-
-LIBFT		= ./includes/libft/libft.a
-
-$(LIBFT):	FORCE
-			make -C ./includes/libft
-
-$(OBJSFD):
+$(OBJ_DIR):
 	mkdir $@
 
-$(OBJSFD)/%.o: %.c | $(OBJSFD)
-	gcc -g $(CFLAGS) $(HDR) $(LIBFT_HDR) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	gcc -g $(CFLAGS) $(INC) $(LIBFT_INC) -c $< -o $@
 
-$(NAME1): $(OBJS1) $(LIBFT) ./includes/push_swap.h
-	gcc -g $(OBJS1) $(LIB_BINARY) -o $@
+$(NAME_PS): $(OBJ_PS) $(LIBFT) ./includes/push_swap.h
+	gcc -g $(OBJ_PS) $(LIB_BINARY) -o $@
 
-$(NAME2): $(OBJS2) $(LIBFT) ./includes/push_swap.h
-	gcc -g $(OBJS2) $(LIB_BINARY) -o $@
+$(NAME_CH): $(OBJ_CH) $(LIBFT) ./includes/push_swap.h
+	gcc -g $(OBJ_CH) $(LIB_BINARY) -o $@
 
 clean:
-	/bin/rm -f $(OBJS)
-	rm -rf $(OBJSFD)
+	rm -rf $(OBJ_DIR)
 	make -C ./includes/libft clean
 
 fclean: clean
-	/bin/rm -f $(NAME1)
-	/bin/rm -f $(NAME2)
+	/bin/rm -f $(NAME_PS)
+	/bin/rm -f $(NAME_CH)
 	make -C ./includes/libft fclean
 
 re: fclean all
-

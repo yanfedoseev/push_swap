@@ -12,27 +12,27 @@
 void	read_command(t_stacks *stacks, t_global *g, char *line)
 {
 	if (!(ft_strcmp(line, "sa")))
-		command_sa(stacks->a, 0);
+		command_sa(stacks->a, 0, 0);
 	else if (!(ft_strcmp(line, "sb")))
-		command_sb(stacks->b, 0);
+		command_sb(stacks->b, 0, 0);
 	else if (!(ft_strcmp(line, "ss")))
-		command_ss(stacks, 0);
+		command_ss(stacks, 0, 0);
 	else if (!(ft_strcmp(line, "pa")))
-		command_pa(stacks, g, 0);
+		command_pa(stacks, &g, 0, 0);
 	else if (!(ft_strcmp(line, "pb")))
-		command_pb(stacks, g, 0);
+		command_pb(stacks, &g, 0, 0);
 	else if (!(ft_strcmp(line, "ra")))
-		command_ra(&stacks->a, 0);
+		command_ra(&stacks->a, 0, 0);
 	else if (!(ft_strcmp(line, "rb")))
-		command_rb(&stacks->b, 0);
+		command_rb(&stacks->b, 0, 0);
 	else if (!(ft_strcmp(line, "rr")))
-		command_rr(stacks, 0);
+		command_rr(stacks, 0, 0);
 	else if (!(ft_strcmp(line, "rra")))
-		command_rra(&stacks->a, 0);
+		command_rra(&stacks->a, 0, 0);
 	else if (!(ft_strcmp(line, "rrb")))
-		command_rrb(&stacks->b, 0);
+		command_rrb(&stacks->b, 0, 0);
 	else if (!(ft_strcmp(line, "rrr")))
-		command_rrr(stacks, 0);
+		command_rrr(stacks, 0, 0);
 	else
 		error_msg(1);
 }
@@ -93,9 +93,9 @@ int		main(int ac, char **av)
 		my_exit(0);
 	if (!(g = (t_global *)malloc(sizeof(t_global))))
 		my_exit(0);
-	if (!(validation(ac, av)))
+	if (!(validation(ac, av, 0)))
 		error_msg(0);
-	get_args(input, ac, av);
+	get_args(input, ac, av, 0);
 	if(!(init(stacks, g, input, 1)))
 		my_exit(0);
 	get_commands(stacks, g);

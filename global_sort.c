@@ -1,7 +1,7 @@
 #include "push_swap.h"
 
 /*
-**		ft_global_sort - алгоритм для сортировки
+**		global_sort - алгоритм для сортировки
 **		чисел любого размера написан на базе
 ** 		сортировки вставками. Данная функция
 ** 		подготавливает стек к сортировке.
@@ -11,22 +11,22 @@
 **			༺༻
 */
 
-void	ft_global_sort(t_stacks *s, t_global *g)
+void	global_sort(t_stacks *s, t_global *g)
 {
 	while (g->size_a > 2)
 	{
 		if (s->a->data != g->min && s->a->data != g->max)
 		{
-			command_pb(s, g, 1);
+			command_pb(s, &g, 1, g->color);
 			if (s->b->data > g->avg)
-				command_rb(&s->b, 1);
+				command_rb(&s->b, 1, g->color);
 		}
 		else
-			command_ra(&s->a, 1);
+			command_ra(&s->a, 1, g->color);
 	}
 	if (s->a->data < s->a->next->data)
-		command_sa(s->a, 1);
-	command_pa(s, g, 1);
+		command_sa(s->a, 1, g->color);
+	command_pa(s, &g, 1, g->color);
 	ft_start_sort(s, g);
 }
 
@@ -58,11 +58,11 @@ void	ft_start_sort(t_stacks *s, t_global *g)
 	if ((ft_count_to_min(s->a, g->min)) > g->size_a / 2)
 	{
 		while (s->a->data != g->min)
-			command_rra(&s->a, 1);
+			command_rra(&s->a, 1, g->color);
 	}
 	else
 		while (s->a->data != g->min)
-			command_ra(&s->a, 1);
+			command_ra(&s->a, 1, g->color);
 	free(step);
 }
 
@@ -142,18 +142,18 @@ void	ft_instruction_execution(t_stacks *s, t_global *g, t_steps *steps)
 	while (steps->size_a > 0)
 	{
 		if (steps->dest_a == 1)
-			command_ra(&s->a, 1);
+			command_ra(&s->a, 1, g->color);
 		else
-			command_rra(&s->a, 1);
+			command_rra(&s->a, 1, g->color);
 		steps->size_a--;
 	}
 	while (steps->size_b > 0)
 	{
 		if (steps->dest_b == 1)
-			command_rb(&s->b, 1);
+			command_rb(&s->b, 1, g->color);
 		else
-			command_rrb(&s->b, 1);
+			command_rrb(&s->b, 1, g->color);
 		steps->size_b--;
 	}
-	command_pa(s, g, 1);
+	command_pa(s, &g, 1, g->color);
 }

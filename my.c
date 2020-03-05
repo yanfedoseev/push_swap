@@ -39,7 +39,7 @@ int		add_data(int *input, int *tmp, int size)
 	return (1);
 }
 
-int		get_args(int *input, int ac, char **av)
+int		get_args(int *input, int ac, char **av, int color)
 {
 	char		**str;
 	int			nmbr;
@@ -47,7 +47,7 @@ int		get_args(int *input, int ac, char **av)
 	int			j;
 	int			*tmp;
 
-	i = 0;
+	i = color;
 	while (++i < ac)
 	{
 		nmbr = ft_count_words(av[i], ' ');
@@ -122,7 +122,6 @@ int		sort_input(int *input)
 int		init(t_stacks *stacks, t_global *g, int *input, int i)
 {
 	stacks->a = create_stack(input, input[0]);
-	// g->b = NULL;
 	g->size_a = input[0];
 	g->size_b = 0;
 	if (!(sort_input(input)) && !i)
@@ -140,27 +139,14 @@ void	free_data(t_stacks *s, t_global *g)
 	t_stack	*buff;
 
 	i = 0;
-
-	// buff = s->a;
-	// while (buff)
-	// {
-	// 	printf("data = %i\n", buff->data);
-	// 	buff = buff->next;
-	// }
-	
-	// puts("OK");
-	// printf("size a = %i\n", g->size_a);
 	while (i < g->size_a)
 	{
-		// puts("OK");
 		buff = s->a;
 		s->a = s->a->next;
-		// printf("buff data = %i\n", buff->data);
 		free(buff);
 		i++;
 	}
 	i = 0;
-	// puts("OK");
 	while (i < g->size_b)
 	{
 		buff = s->b;

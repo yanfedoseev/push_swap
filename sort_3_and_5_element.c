@@ -1,7 +1,7 @@
 #include "push_swap.h"
 
 /*
-**		ft_sort_3_element - алгоритм для сортировки 3-х
+**		sort_3_element - алгоритм для сортировки 3-х
 **		и 2-х чисел.
 **			༺༻
 **		Состояние:	✓
@@ -9,7 +9,7 @@
 **			༺༻
 */
 
-void	ft_sort_3_element(t_stacks *s, int size_a)
+void	sort_3_element(t_stacks *s, int size_a, int color)
 {
 	int max;
 
@@ -19,22 +19,22 @@ void	ft_sort_3_element(t_stacks *s, int size_a)
 	else if (size_a == 2)
 	{
 		if (s->a->data > s->a->next->data)
-			command_sa(s->a, 1);
+			command_sa(s->a, 1, color);
 		return ;
 	}
 	else if (size_a == 3)
 	{
 		if (s->a->data == max)
-			command_ra(&s->a, 1);
+			command_ra(&s->a, 1, color);
 		if (s->a->next->data == max)
-			command_rra(&s->a, 1);
+			command_rra(&s->a, 1, color);
 		if (s->a->data > s->a->next->data)
-			command_sa(s->a, 1);
+			command_sa(s->a, 1, color);
 	}
 }
 
 /*
-**		ft_sort_5_element - алгоритм для сортировки 5-ти
+**		sort_5_element - алгоритм для сортировки 5-ти
 **		и 4-х чисел.
 **			༺༻
 **		Состояние:	✓
@@ -42,26 +42,26 @@ void	ft_sort_3_element(t_stacks *s, int size_a)
 **			༺༻
 */
 
-void	ft_sort_5_element(t_stacks *s, t_global *g)
+void	sort_5_element(t_stacks *s, t_global *g)
 {
 	while (g->size_b < 2)
 	{
 		if (s->a->data == g->min || s->a->data == g->max)
-			command_pb(s, g, 1);
+			command_pb(s, &g, 1, g->color);
 		else
-			command_ra(&s->a, 1);
+			command_ra(&s->a, 1, g->color);
 	}
-	ft_sort_3_element(s, g->size_a);
-	command_pa(s, g, 1);
-	command_pa(s, g, 1);
+	sort_3_element(s, g->size_a, g->color);
+	command_pa(s, &g, 1, g->color);
+	command_pa(s, &g, 1, g->color);
 	if (s->a->data == g->max)
 	{
-		command_ra(&s->a, 1);
+		command_ra(&s->a, 1, g->color);
 	}
 	else
 	{
-		command_sa(s->a, 1);
-		command_ra(&s->a, 1);
+		command_sa(s->a, 1, g->color);
+		command_ra(&s->a, 1, g->color);
 	}
 }
 

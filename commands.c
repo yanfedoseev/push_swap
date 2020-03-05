@@ -1,5 +1,17 @@
 #include "push_swap.h"
 
+void	write_command(char *str, int color)
+{
+	if (color && str[0] == 's')
+		write(1, "\x1b[33m", 5);
+	else if (color && str[0] == 'r' && str[1] == 'r' )
+		write(1, "\x1b[31m", 5);
+	else if (color && str [0] == 'r')
+		write(1, "\x1b[32m", 5);
+	write(1, str, ft_strlen(str));
+	write(1, "\n\x1b[0m", 5);
+}
+
 /*
 **		sa: swap a - поменяйте местами первые 2 элемента в
 **		верхней части стека a. Ничего не делать, если есть
@@ -10,7 +22,7 @@
 **			༺༻
 */
 
-void	command_sa(t_stack *a, int i)
+void	command_sa(t_stack *a, int display, int color)
 {
 	int		buff;
 
@@ -19,8 +31,8 @@ void	command_sa(t_stack *a, int i)
 	buff = a->data;
 	a->data = a->next->data;
 	a->next->data = buff;
-	if (i == 1)
-		write(1, "sa\n", 3);
+	if (display)
+		write_command("sa", color);
 }
 
 /*
@@ -33,7 +45,7 @@ void	command_sa(t_stack *a, int i)
 **			༺༻
 */
 
-void	command_sb(t_stack *b, int i)
+void	command_sb(t_stack *b, int display, int color)
 {
 	int		buff;
 
@@ -42,8 +54,8 @@ void	command_sb(t_stack *b, int i)
 	buff = b->data;
 	b->data = b->next->data;
 	b->next->data = buff;
-	if (i == 1)
-		write(1, "sb\n", 3);
+	if (display)
+		write_command("sb", color);
 }
 
 /*
@@ -54,12 +66,12 @@ void	command_sb(t_stack *b, int i)
 **			༺༻
 */
 
-void	command_ss(t_stacks *s, int i)
+void	command_ss(t_stacks *s, int display, int color)
 {
-	command_sa(s->a, 0);
-	command_sb(s->b, 0);
-	if (i == 1)
-		write(1, "ss\n", 3);
+	command_sa(s->a, 0, color);
+	command_sb(s->b, 0, color);
+	if (display)
+		write_command("ss", color);
 }
 
 /*
@@ -72,20 +84,20 @@ void	command_ss(t_stacks *s, int i)
 **			༺༻
 */
 
-void	command_pa(t_stacks *s, t_global *g, int i)
+void	command_pa(t_stacks *s, t_global **g, int display, int color)
 {
 	t_stack	*buff;
 
 	if (s->b == NULL)
 		return ;
-	g->size_a += 1;
-	g->size_b -= 1;
+	(*g)->size_a += 1;
+	(*g)->size_b -= 1;
 	buff = s->b;
 	s->b = s->b->next;
 	buff->next = s->a;
 	s->a = buff;
-	if (i == 1)
-		write(1, "pa\n", 3);
+	if (display)
+		write_command("pa", color);
 }
 
 /*
@@ -98,20 +110,20 @@ void	command_pa(t_stacks *s, t_global *g, int i)
 **			༺༻
 */
 
-void	command_pb(t_stacks *s, t_global *g, int i)
+void	command_pb(t_stacks *s, t_global **g, int display, int color)
 {
 	t_stack	*buff;
 
 	if (s->a == NULL)
 		return ;
-	g->size_a -= 1;
-	g->size_b += 1;
+	(*g)->size_a -= 1;
+	(*g)->size_b += 1;
 	buff = s->a;
 	s->a = s->a->next;
 	buff->next = s->b;
 	s->b = buff;
-	if (i == 1)
-		write(1, "pb\n", 3);
+	if (display)
+		write_command("pb", color);
 }
 
 /*
@@ -123,7 +135,7 @@ void	command_pb(t_stacks *s, t_global *g, int i)
 **			༺༻
 */
 
-void	command_ra(t_stack **a, int i)
+void	command_ra(t_stack **a, int display, int color)
 {
 	t_stack	*first_list;
 	t_stack	*rotate_list;
@@ -139,8 +151,8 @@ void	command_ra(t_stack **a, int i)
 	rotate_list->next = NULL;
 	last_list->next = rotate_list;
 	*a = first_list;
-	if (i == 1)
-		write(1, "ra\n", 3);
+	if (display)
+		write_command("ra", color);
 }
 
 /*
@@ -152,7 +164,7 @@ void	command_ra(t_stack **a, int i)
 **			༺༻
 */
 
-void	command_rb(t_stack **b, int i)
+void	command_rb(t_stack **b, int display, int color)
 {
 	t_stack	*first_list;
 	t_stack	*rotate_list;
@@ -168,8 +180,8 @@ void	command_rb(t_stack **b, int i)
 	rotate_list->next = NULL;
 	last_list->next = rotate_list;
 	*b = first_list;
-	if (i == 1)
-		write(1, "rb\n", 3);
+	if (display)
+		write_command("rb", color);
 }
 
 /*
@@ -180,12 +192,12 @@ void	command_rb(t_stack **b, int i)
 **			༺༻
 */
 
-void	command_rr(t_stacks *s, int i)
+void	command_rr(t_stacks *s, int display, int color)
 {
-	if (i == 1)
-		write(1, "rr\n", 3);
-	command_ra(&s->a, 0);
-	command_rb(&s->b, 0);
+	command_ra(&s->a, 0, color);
+	command_rb(&s->b, 0, color);
+	if (display)
+		write_command("rr", color);
 }
 
 /*
@@ -197,7 +209,7 @@ void	command_rr(t_stacks *s, int i)
 **			༺༻
 */
 
-void	command_rra(t_stack **a, int i)
+void	command_rra(t_stack **a, int display, int color)
 {
 	t_stack		*first_list;
 	t_stack		*rotate_list;
@@ -213,8 +225,9 @@ void	command_rra(t_stack **a, int i)
 	penultimate_list->next = NULL;
 	rotate_list->next = first_list;
 	*a = rotate_list;
-	if (i == 1)
-		write(1, "rra\n", 4);
+	// printf("display = %i, color = %i\n", display, color);
+	if (display)
+		write_command("rra", color);
 }
 
 /*
@@ -226,7 +239,7 @@ void	command_rra(t_stack **a, int i)
 **			༺༻
 */
 
-void	command_rrb(t_stack **b, int i)
+void	command_rrb(t_stack **b, int display, int color)
 {
 	t_stack		*first_list;
 	t_stack		*rotate_list;
@@ -242,8 +255,8 @@ void	command_rrb(t_stack **b, int i)
 	penultimate_list->next = NULL;
 	rotate_list->next = first_list;
 	*b = rotate_list;
-	if (i == 1)
-		write(1, "rrb\n", 4);
+	if (display)
+		write_command("rrb", color);
 }
 
 /*
@@ -254,10 +267,10 @@ void	command_rrb(t_stack **b, int i)
 **			༺༻
 */
 
-void	command_rrr(t_stacks *s, int i)
+void	command_rrr(t_stacks *s, int display, int color)
 {
-	command_rra(&s->a, 0);
-	command_rrb(&s->b, 0);
-	if (i == 1)
-		write(1, "rrr\n", 4);
+	command_rra(&s->a, 0, color);
+	command_rrb(&s->b, 0, color);
+	if (display)
+		write_command("rrr", color);
 }
