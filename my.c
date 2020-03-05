@@ -1,72 +1,5 @@
 #include "push_swap.h"
 
-void	ft_skip(char const *str, char c, int *i)
-{
-	while (str[*i] == c)
-		(*i)++;
-}
-
-char	*ft_word(char const *str, char c, int *i)
-{
-	char	*wrd;
-	int 	k;
-
-	k = *i;
-	while (str[k] != c && str[k] != '\0')
-		k++;
-	if(!(wrd = malloc(sizeof(char) * (k + 1))))
-		return (NULL);
-	k = 0;
-	while (str[*i] != c && str[*i] != '\0')
-		wrd[k++] = str[(*i)++];
-	wrd[k] = '\0';
-	return (wrd);
-}
-
-int		tmp_ft_count_words(char const *str, char c)
-{
-	int		j;
-
-	j = 0;
-	while (*str == c)
-		str++;
-	while (*str)
-	{
-		j++;
-		while (*str != c && *str)
-			str++;
-		while (*str == c)
-			str++;
-	}
-	return (j);
-}
-
-char	**tmp_ft_strsplit(char const *s, char c)
-{
-	char	**res;
-	int 	i;
-	int 	j;
-
-	if (s == NULL)
-		return (NULL);
-	if (!(res = (char **)malloc(sizeof(char *) * (tmp_ft_count_words(s, c) + 1))))
-		return (NULL);
-	i = 0;
-	j = 0;
-	ft_skip(s, c, &i);
-	while (s[i] != '\0')
-	{
-		res[j++] = ft_word(s, c, &i);
-		if (res[j - 1] == NULL)
-		{
-			return (NULL);
-		}
-		ft_skip(s, c, &i);
-	}
-	res[j] = NULL;
-	return (res);
-}
-
 long long	ps_atoi(const char *str)
 {
 	long long		n;
@@ -117,8 +50,8 @@ int		get_args(int *input, int ac, char **av)
 	i = 0;
 	while (++i < ac)
 	{
-		nmbr = tmp_ft_count_words(av[i], ' ');
-		str = tmp_ft_strsplit(av[i], ' ');
+		nmbr = ft_count_words(av[i], ' ');
+		str = ft_strsplit(av[i], ' ');
 		if (!(tmp = (int *)malloc(sizeof(int) * (nmbr))))
 			return (0);
 		j = -1;
