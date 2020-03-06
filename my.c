@@ -47,7 +47,7 @@ int		get_args(int *input, int ac, char **av, t_global *g)
 	int			j;
 	int			*tmp;
 
-	i = 0 + g->color + g->visualize + g->visualize_k + g->file;
+	i = 0 + g->color + g->visualize + g->file;
 	while (++i < ac)
 	{
 		nmbr = ft_count_words(av[i], ' ');
@@ -130,7 +130,10 @@ void	init_global(t_global *g, char *opt)
 	else if (!(ft_strcmp(opt, "-v")))
 		g->visualize = 1;
 	else if (!(ft_strcmp(opt, "-vk")))
+	{
+		g->visualize = 1;
 		g->visualize_k = 1;
+	}
 	else if (!(ft_strcmp(opt, "-f")))
 	{
 		g->file = 1;
@@ -144,6 +147,8 @@ void	set_size_for_visualizer(t_stacks *s, int *input)
 	int			i;
 	t_stack		*start;
 
+	
+	i = 0;
 	start = s->a;
 	while (s->a)
 	{

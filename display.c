@@ -1,40 +1,95 @@
 #include "push_swap.h"
 
+void    display_elem(t_global *g, t_stack ***s)
+{
+	int	size;
+	
+	if (g->visualize_k)
+	{
+		size = (**s)->size_v;
+		while(size--)
+    		write(1, "=", 1);
+		size = MAX_SIZE - (**s)->size_v;
+		while(size--)
+			write(1, " ", 1);
+	}
+	else
+	{
+		size = ft_nmbrlen((**s)->data);
+		write(1, ft_itoa((**s)->data), size);
+		size = MAX_SIZE - size;
+		while(size--)
+			write(1, " ", 1);
+	}
+    **s = (**s)->next;
+}
+
+void    display_line(t_global *g, t_stack **a, t_stack **b, int *diff)
+{
+	int size;
+
+    if (*diff > 0)
+    {
+		display_elem(g, &a);
+		(*diff)--;
+    }
+	else
+	{
+		size = MAX_SIZE;
+		while(size--)
+			write(1, " ", 1);
+	}
+    write(1, "\t\t\t\t", 4);
+    if (*diff < 0)
+	{
+        display_elem(g, &b);
+		(*diff)++;
+	}
+	write(1, "\n", 1);
+}
+
+void    display_rest(t_global *g, t_stack **a, t_stack **b)
+{
+	while (*a)
+	{
+		display_elem(g, &a);
+		write(1, "\t\t\t\t", 4);
+		display_elem(g, &b);
+		write(1, "\n", 1);
+	}
+}
+
 void	display_stacks(t_stacks *stacks, t_global *g)
 {
+	// t_stack *tmp;
+	// tmp = stacks->a;
+	// while (tmp)
+	// {
+	// 	printf("data = %i    size = %i\n", tmp->data, tmp->size_v);
+	// 	tmp = tmp->next;
+	// }
+
 	t_stack	*a;
 	t_stack	*b;
 	int		diff;
 
-	if (g->visualize || g->visualize_k)
+	if (g->visualize)
 	{
-        usleep(200000);
+        usleep(100000);
 		write(1, "\e[1;1H\e[2J", 10);
 	}
 	a = stacks->a;
 	b = stacks->b;
 	diff = g->size_a - g->size_b;
-	if (g->size_a > g->size_b)
-	{
-		while (diff--)
-		{
-			ft_printf("%i\t\t\n", a->data);
-			a = a->next;
-		}
-		
-	}
-	else if (g->size_a < g->size_b)
-	{
-		while (diff++)
-		{
-			ft_printf("\t\t%i\n", b->data);
-			b = b->next;
-		}
-	}
-	while (a)
-	{
-		ft_printf("%i\t\t%i\n", a->data, b->data);
-		a = a->next;
-		b = b->next;
-	}
+	while (diff)
+		display_line(g, &a, &b, &diff);
+	display_rest(g, &a, &b);
+
+	// a = stacks->a;
+	// while (a)
+	// {
+	// 	printf("data = %i    size = %i\n", a->data, (int)a->size_v);
+	// 	a = a->next;
+	// }
+	// stacks->a->data = g->size_a;
 }

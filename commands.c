@@ -29,13 +29,14 @@ void	write_command(char *str, t_global *g)
 
 void	command_sa(t_stacks *s, t_global *g, int display)
 {
-	int		buff;
+	t_stack	*tmp;
 
 	if (s->a == NULL || s->a->next == NULL)
 		return ;
-	buff = s->a->data;
-	s->a->data = s->a->next->data;
-	s->a->next->data = buff;
+	tmp = s->a->next;
+	s->a->next = s->a->next->next;
+	tmp->next = s->a;
+	s->a = tmp;
 	if (g->visualize)
 		display_stacks(s, g);
 	else if (display)
@@ -54,13 +55,14 @@ void	command_sa(t_stacks *s, t_global *g, int display)
 
 void	command_sb(t_stacks *s, t_global *g, int display)
 {
-	int		buff;
+	t_stack	*tmp;
 
 	if (s->b == NULL || s->b->next == NULL)
 		return ;
-	buff = s->b->data;
-	s->b->data = s->b->next->data;
-	s->b->next->data = buff;
+	tmp = s->b->next;
+	s->b->next = s->b->next->next;
+	tmp->next = s->b;
+	s->b = tmp;
 	if (g->visualize)
 		display_stacks(s, g);
 	else if (display)

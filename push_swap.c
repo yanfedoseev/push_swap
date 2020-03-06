@@ -50,6 +50,13 @@ int		main(int ac, char **av)
 		my_exit(0);
 	if(!(init(stacks, g, input, 0)))
 		my_exit(0);
+	// t_stack *tmp;
+	// tmp = stacks->a;
+	// while (tmp)
+	// {
+	// 	printf("data = %i    size = %i\n", tmp->data, tmp->size_v);
+	// 	tmp = tmp->next;
+	// }
 	sort(stacks, g);
 	free_data(stacks, g);
 	// close(fd);

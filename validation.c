@@ -5,7 +5,7 @@ int		validation(int ac, char **av, t_global *g)
 	int i;
 	int	j;
 
-	j = 0 + g->color + g->visualize + g->visualize_k + g->file;
+	j = 0 + g->color + g->visualize + g->file;
 	while (++j < ac)
 	{
 		i = -1;

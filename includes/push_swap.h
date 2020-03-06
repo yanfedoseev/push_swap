@@ -2,7 +2,7 @@
 # define PUSH_SWAP_H
 # define MAXINT 2147483647
 # define MININT -2147483648
-# define MAX_SIZE 8
+# define MAX_SIZE 80
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
