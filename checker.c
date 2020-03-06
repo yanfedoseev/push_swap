@@ -9,47 +9,6 @@
 **			༺༻
 */
 
-void	display_stacks(t_stacks *stacks, t_global *g)
-{
-	t_stack	*a;
-	t_stack	*b;
-	int		diff;
-	char	*str;
-
-	a = stacks->a;
-	b = stacks->b;
-	diff = g->size_a - g->size_b;
-	if (g->size_a > g->size_b)
-	{
-		while (diff--)
-		{
-			str = ft_itoa(a->data);
-			write(1, str, strlen(str));
-			write(1, "\t\t\n", 3);
-			a = a->next;
-		}
-		
-	}
-	else if (g->size_a < g->size_b)
-	{
-		diff *= -1;
-		while (diff--)
-		{
-			str = ft_itoa(a->data);
-			write(1, "\t\t", 2);
-			write(1, str, strlen(str));
-			write(1, "\n", 1);
-			b = b->next;
-		}
-	}
-	while (a)
-	{
-		printf("%i\t\t%i\n", a->data, b->data);
-		a = a->next;
-		b = b->next;
-	}
-}
-
 void	not_error_but_bonus(t_stacks *stacks, t_global *g, char *line)
 {
 	if (!(ft_strcmp(line, "")))
@@ -61,27 +20,27 @@ void	not_error_but_bonus(t_stacks *stacks, t_global *g, char *line)
 void	read_command(t_stacks *stacks, t_global *g, char *line)
 {
 	if (!(ft_strcmp(line, "sa")))
-		command_sa(stacks->a, 0, 0);
+		command_sa(stacks, g, 0);
 	else if (!(ft_strcmp(line, "sb")))
-		command_sb(stacks->b, 0, 0);
+		command_sb(stacks, g, 0);
 	else if (!(ft_strcmp(line, "ss")))
-		command_ss(stacks, 0, 0);
+		command_ss(stacks, g, 0);
 	else if (!(ft_strcmp(line, "pa")))
-		command_pa(stacks, &g, 0, 0);
+		command_pa(stacks, &g, 0);
 	else if (!(ft_strcmp(line, "pb")))
-		command_pb(stacks, &g, 0, 0);
+		command_pb(stacks, &g, 0);
 	else if (!(ft_strcmp(line, "ra")))
-		command_ra(&stacks->a, 0, 0);
+		command_ra(&stacks, g, 0);
 	else if (!(ft_strcmp(line, "rb")))
-		command_rb(&stacks->b, 0, 0);
+		command_rb(&stacks, g, 0);
 	else if (!(ft_strcmp(line, "rr")))
-		command_rr(stacks, 0, 0);
+		command_rr(stacks, g, 0);
 	else if (!(ft_strcmp(line, "rra")))
-		command_rra(&stacks->a, 0, 0);
+		command_rra(&stacks, g, 0);
 	else if (!(ft_strcmp(line, "rrb")))
-		command_rrb(&stacks->b, 0, 0);
+		command_rrb(&stacks, g, 0);
 	else if (!(ft_strcmp(line, "rrr")))
-		command_rrr(stacks, 0, 0);
+		command_rrr(stacks, g, 0);
 	else
 		not_error_but_bonus(stacks, g, line);
 }
@@ -142,9 +101,11 @@ int		main(int ac, char **av)
 		my_exit(0);
 	if (!(g = (t_global *)malloc(sizeof(t_global))))
 		my_exit(0);
-	if (!(validation(ac, av, 0)))
+	g->color = 0;
+	g->visualize = 0;
+	if (!(validation(ac, av, g)))
 		error_msg(0);
-	get_args(input, ac, av, 0);
+	get_args(input, ac, av, g);
 	if(!(init(stacks, g, input, 1)))
 		my_exit(0);
 	get_commands(stacks, g);

@@ -1,11 +1,11 @@
 #include "push_swap.h"
 
-int		validation(int ac, char **av, int color)
+int		validation(int ac, char **av, t_global *g)
 {
 	int i;
 	int	j;
 
-	j = color;
+	j = 0 + g->color + g->visualize;
 	while (++j < ac)
 	{
 		i = -1;

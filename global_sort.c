@@ -17,16 +17,16 @@ void	global_sort(t_stacks *s, t_global *g)
 	{
 		if (s->a->data != g->min && s->a->data != g->max)
 		{
-			command_pb(s, &g, 1, g->color);
+			command_pb(s, &g, 1);
 			if (s->b->data > g->avg)
-				command_rb(&s->b, 1, g->color);
+				command_rb(&s, g, 1);
 		}
 		else
-			command_ra(&s->a, 1, g->color);
+			command_ra(&s, g, 1);
 	}
 	if (s->a->data < s->a->next->data)
-		command_sa(s->a, 1, g->color);
-	command_pa(s, &g, 1, g->color);
+		command_sa(s, g, 1);
+	command_pa(s, &g, 1);
 	ft_start_sort(s, g);
 }
 
@@ -58,11 +58,11 @@ void	ft_start_sort(t_stacks *s, t_global *g)
 	if ((ft_count_to_min(s->a, g->min)) > g->size_a / 2)
 	{
 		while (s->a->data != g->min)
-			command_rra(&s->a, 1, g->color);
+			command_rra(&s, g, 1);
 	}
 	else
 		while (s->a->data != g->min)
-			command_ra(&s->a, 1, g->color);
+			command_ra(&s, g, 1);
 	free(step);
 }
 
@@ -142,18 +142,18 @@ void	ft_instruction_execution(t_stacks *s, t_global *g, t_steps *steps)
 	while (steps->size_a > 0)
 	{
 		if (steps->dest_a == 1)
-			command_ra(&s->a, 1, g->color);
+			command_ra(&s, g, 1);
 		else
-			command_rra(&s->a, 1, g->color);
+			command_rra(&s, g, 1);
 		steps->size_a--;
 	}
 	while (steps->size_b > 0)
 	{
 		if (steps->dest_b == 1)
-			command_rb(&s->b, 1, g->color);
+			command_rb(&s, g, 1);
 		else
-			command_rrb(&s->b, 1, g->color);
+			command_rrb(&s, g, 1);
 		steps->size_b--;
 	}
-	command_pa(s, &g, 1, g->color);
+	command_pa(s, &g, 1);
 }

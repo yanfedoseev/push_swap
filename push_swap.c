@@ -1,13 +1,27 @@
 #include "push_swap.h"
 
+// void clearScreen()
+// {
+//   sleep(0.1);
+//   write(1, "\e[1;1H\e[2J", 10);
+// }
+
 void	sort(t_stacks *s, t_global *g)
 {
 	if (g->size_a <= 3)
-		sort_3_element(s, g->size_a, g->color);
+		sort_3_element(s, g);
 	else if (g->size_a <= 5)
 		sort_5_element(s, g);
 	else
 		global_sort(s, g);
+}
+
+void	check_option(char *opt, t_global *g)
+{
+	if (!(ft_strcmp(opt, "-c")))
+		g->color = 1;
+	else if (!(ft_strcmp(opt, "-v")))
+		g->visualize = 1;
 }
 
 int		main(int ac, char **av)
@@ -24,12 +38,11 @@ int		main(int ac, char **av)
 	if (!(g = (t_global *)malloc(sizeof(t_global))))
 		my_exit(0);
 	g->color = 0;
-	if (!(ft_strcmp(av[1], "-c")))
-		g->color = 1;
-	// printf("color = %c\n", g->color);
-	if (!(validation(ac, av, g->color)))
+	g->visualize = 0;
+	check_option(av[1], g);
+	if (!(validation(ac, av, g)))
 		error_msg(0);
-	if(!(get_args(input, ac, av, g->color)))
+	if(!(get_args(input, ac, av, g)))
 		my_exit(0);
 	if(!(init(stacks, g, input, 0)))
 		my_exit(0);

@@ -23,7 +23,8 @@ typedef struct		s_stacks
 
 typedef struct		s_global
 {
-	int			color;
+	int				color;
+	int				visualize;
 	int				size_a;
 	int				size_b;
 	int				min;
@@ -46,7 +47,7 @@ void				free_data(t_stacks *s, t_global *g);
 void				sort(t_stacks *s, t_global *g);
 void				ft_null(t_global *g);
 
-void				sort_3_element(t_stacks *s, int size_a, int color);
+void				sort_3_element(t_stacks *s, t_global *g);
 void				sort_5_element(t_stacks *s, t_global *g);
 int					ft_max(t_stack *s);
 
@@ -64,19 +65,19 @@ int					ft_finding_place(t_stacks *s, t_steps *steps, int size_a, int min);
 int					ft_smaller_element_detection(t_stack *a, int buff, int src);
 int					ft_count_to_min(t_stack *a, int min);
 
-void				command_ra(t_stack **a, int display, int color);
-void				command_rb(t_stack **b, int display, int color);
-void				command_rr(t_stacks *s, int display, int color);
-void				command_rra(t_stack **a, int display, int color);
-void				command_rrb(t_stack **b, int display, int color);
+void				command_ra(t_stacks **s, t_global *g, int display);
+void				command_rb(t_stacks **s, t_global *g, int display);
+void				command_rr(t_stacks *s, t_global *g, int display);
+void				command_rra(t_stacks **s, t_global *g, int display);
+void				command_rrb(t_stacks **s, t_global *g, int display);
 
-void				command_sa(t_stack *a, int display, int color);
-void				command_sb(t_stack *a, int display, int color);
-void				command_ss(t_stacks *s, int display, int color);
-void				command_pa(t_stacks *s, t_global **g, int display, int color);
-void				command_pb(t_stacks *s, t_global **g, int display, int color);
+void				command_sa(t_stacks *s, t_global *g, int display);
+void				command_sb(t_stacks *s, t_global *g, int display);
+void				command_ss(t_stacks *s, t_global *g, int display);
+void				command_pa(t_stacks *s, t_global **g, int display);
+void				command_pb(t_stacks *s, t_global **g, int display);
 
-void				command_rrr(t_stacks *s, int display, int color);
+void				command_rrr(t_stacks *s, t_global *g, int display);
 
 
 void				read_command(t_stacks *stacks, t_global *g, char *line);
@@ -85,12 +86,14 @@ int					check_if_sorted(t_stack *a);
 
 void				my_exit(int i);
 int					add_data(int *input, int *tmp, int size);
-int					get_args(int *input, int ac, char **av, int color);
+int					get_args(int *input, int ac, char **av, t_global *g);
 t_stack				*create_stack(int *input, int size);
 int					sort_input(int *input);
 int					init(t_stacks *stacks, t_global *g, int *input, int i);
 void				error_msg(int i);
-int					validation(int ac, char **av, int color);
-void				write_command(char *str, int color);
+int					validation(int ac, char **av, t_global *g);
+void				write_command(char *str, t_global *g);
+void				not_error_but_bonus(t_stacks *stacks, t_global *g, char *line);
+void				display_stacks(t_stacks *stacks, t_global *g);
 
 #endif

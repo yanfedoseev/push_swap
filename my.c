@@ -39,7 +39,7 @@ int		add_data(int *input, int *tmp, int size)
 	return (1);
 }
 
-int		get_args(int *input, int ac, char **av, int color)
+int		get_args(int *input, int ac, char **av, t_global *g)
 {
 	char		**str;
 	int			nmbr;
@@ -47,7 +47,7 @@ int		get_args(int *input, int ac, char **av, int color)
 	int			j;
 	int			*tmp;
 
-	i = color;
+	i = 0 + g->color + g->visualize;
 	while (++i < ac)
 	{
 		nmbr = ft_count_words(av[i], ' ');

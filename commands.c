@@ -1,15 +1,14 @@
 #include "push_swap.h"
 
-void	write_command(char *str, int color)
+void	write_command(char *str, t_global *g)
 {
-	if (color && str[0] == 's')
+	if (g->color && str[0] == 's')
 		write(1, "\x1b[33m", 5);
-	else if (color && str[0] == 'r' && str[1] == 'r' )
+	else if (g->color && str[0] == 'r' && str[1] == 'r' )
 		write(1, "\x1b[31m", 5);
-	else if (color && str [0] == 'r')
+	else if (g->color && str [0] == 'r')
 		write(1, "\x1b[32m", 5);
-	write(1, str, ft_strlen(str));
-	write(1, "\n\x1b[0m", 5);
+	ft_printf("%s\x1b[0m\n", str);
 }
 
 /*
@@ -22,17 +21,19 @@ void	write_command(char *str, int color)
 **			༺༻
 */
 
-void	command_sa(t_stack *a, int display, int color)
+void	command_sa(t_stacks *s, t_global *g, int display)
 {
 	int		buff;
 
-	if (a == NULL || a->next == NULL)
+	if (s->a == NULL || s->a->next == NULL)
 		return ;
-	buff = a->data;
-	a->data = a->next->data;
-	a->next->data = buff;
-	if (display)
-		write_command("sa", color);
+	buff = s->a->data;
+	s->a->data = s->a->next->data;
+	s->a->next->data = buff;
+	if (g->visualize)
+		display_stacks(s, g);
+	else if (display)
+		write_command("sa", g);
 }
 
 /*
@@ -45,17 +46,19 @@ void	command_sa(t_stack *a, int display, int color)
 **			༺༻
 */
 
-void	command_sb(t_stack *b, int display, int color)
+void	command_sb(t_stacks *s, t_global *g, int display)
 {
 	int		buff;
 
-	if (b == NULL || b->next == NULL)
+	if (s->b == NULL || s->b->next == NULL)
 		return ;
-	buff = b->data;
-	b->data = b->next->data;
-	b->next->data = buff;
-	if (display)
-		write_command("sb", color);
+	buff = s->b->data;
+	s->b->data = s->b->next->data;
+	s->b->next->data = buff;
+	if (g->visualize)
+		display_stacks(s, g);
+	else if (display)
+		write_command("sb", g);
 }
 
 /*
@@ -66,12 +69,14 @@ void	command_sb(t_stack *b, int display, int color)
 **			༺༻
 */
 
-void	command_ss(t_stacks *s, int display, int color)
+void	command_ss(t_stacks *s, t_global *g, int display)
 {
-	command_sa(s->a, 0, color);
-	command_sb(s->b, 0, color);
-	if (display)
-		write_command("ss", color);
+	command_sa(s, g, 0);
+	command_sb(s, g, 0);
+	if (g->visualize)
+		display_stacks(s, g);
+	else if (display)
+		write_command("ss", g);
 }
 
 /*
@@ -84,7 +89,7 @@ void	command_ss(t_stacks *s, int display, int color)
 **			༺༻
 */
 
-void	command_pa(t_stacks *s, t_global **g, int display, int color)
+void	command_pa(t_stacks *s, t_global **g, int display)
 {
 	t_stack	*buff;
 
@@ -96,8 +101,10 @@ void	command_pa(t_stacks *s, t_global **g, int display, int color)
 	s->b = s->b->next;
 	buff->next = s->a;
 	s->a = buff;
-	if (display)
-		write_command("pa", color);
+	if ((*g)->visualize)
+		display_stacks(s, *g);
+	else if (display)
+		write_command("pa", *g);
 }
 
 /*
@@ -110,7 +117,7 @@ void	command_pa(t_stacks *s, t_global **g, int display, int color)
 **			༺༻
 */
 
-void	command_pb(t_stacks *s, t_global **g, int display, int color)
+void	command_pb(t_stacks *s, t_global **g, int display)
 {
 	t_stack	*buff;
 
@@ -122,8 +129,10 @@ void	command_pb(t_stacks *s, t_global **g, int display, int color)
 	s->a = s->a->next;
 	buff->next = s->b;
 	s->b = buff;
-	if (display)
-		write_command("pb", color);
+	if ((*g)->visualize)
+		display_stacks(s, *g);
+	else if (display)
+		write_command("pb", *g);
 }
 
 /*
@@ -135,24 +144,26 @@ void	command_pb(t_stacks *s, t_global **g, int display, int color)
 **			༺༻
 */
 
-void	command_ra(t_stack **a, int display, int color)
+void	command_ra(t_stacks **s, t_global *g, int display)
 {
 	t_stack	*first_list;
 	t_stack	*rotate_list;
 	t_stack	*last_list;
 
-	if ((*a) == NULL || (*a)->next == NULL)
+	if ((*s)->a == NULL || (*s)->a->next == NULL)
 		return ;
-	rotate_list = *a;
-	first_list = (*a)->next;
-	last_list = *a;
+	rotate_list = (*s)->a;
+	first_list = (*s)->a->next;
+	last_list = (*s)->a;
 	while (last_list->next != NULL)
 		last_list = last_list->next;
 	rotate_list->next = NULL;
 	last_list->next = rotate_list;
-	*a = first_list;
-	if (display)
-		write_command("ra", color);
+	(*s)->a = first_list;
+	if (g->visualize)
+		display_stacks(*s, g);
+	else if (display)
+		write_command("ra", g);
 }
 
 /*
@@ -164,24 +175,26 @@ void	command_ra(t_stack **a, int display, int color)
 **			༺༻
 */
 
-void	command_rb(t_stack **b, int display, int color)
+void	command_rb(t_stacks **s, t_global *g, int display)
 {
 	t_stack	*first_list;
 	t_stack	*rotate_list;
 	t_stack	*last_list;
 
-	if ((*b) == NULL || (*b)->next == NULL)
+	if ((*s)->b == NULL || (*s)->b->next == NULL)
 		return ;
-	rotate_list = *b;
-	first_list = (*b)->next;
-	last_list = *b;
+	rotate_list = (*s)->b;
+	first_list = (*s)->b->next;
+	last_list = (*s)->b;
 	while (last_list->next != NULL)
 		last_list = last_list->next;
 	rotate_list->next = NULL;
 	last_list->next = rotate_list;
-	*b = first_list;
-	if (display)
-		write_command("rb", color);
+	(*s)->b = first_list;
+	if (g->visualize)
+		display_stacks(*s, g);
+	else if (display)
+		write_command("rb", g);
 }
 
 /*
@@ -192,12 +205,14 @@ void	command_rb(t_stack **b, int display, int color)
 **			༺༻
 */
 
-void	command_rr(t_stacks *s, int display, int color)
+void	command_rr(t_stacks *s, t_global *g, int display)
 {
-	command_ra(&s->a, 0, color);
-	command_rb(&s->b, 0, color);
-	if (display)
-		write_command("rr", color);
+	command_ra(&s, g, 0);
+	command_rb(&s, g, 0);
+	if (g->visualize)
+		display_stacks(s, g);
+	else if (display)
+		write_command("rr", g);
 }
 
 /*
@@ -209,25 +224,26 @@ void	command_rr(t_stacks *s, int display, int color)
 **			༺༻
 */
 
-void	command_rra(t_stack **a, int display, int color)
+void	command_rra(t_stacks **s, t_global *g, int display)
 {
 	t_stack		*first_list;
 	t_stack		*rotate_list;
 	t_stack		*penultimate_list;
 
-	if ((*a) == NULL || (*a)->next == NULL)
+	if ((*s)->a == NULL || (*s)->a->next == NULL)
 		return ;
-	first_list = *a;
-	penultimate_list = *a;
+	first_list = (*s)->a;
+	penultimate_list = (*s)->a;
 	while (penultimate_list->next->next != NULL)
 		penultimate_list = penultimate_list->next;
 	rotate_list = penultimate_list->next;
 	penultimate_list->next = NULL;
 	rotate_list->next = first_list;
-	*a = rotate_list;
-	// printf("display = %i, color = %i\n", display, color);
-	if (display)
-		write_command("rra", color);
+	(*s)->a = rotate_list;
+	if (g->visualize)
+		display_stacks(*s, g);
+	else if (display)
+		write_command("rra", g);
 }
 
 /*
@@ -239,24 +255,26 @@ void	command_rra(t_stack **a, int display, int color)
 **			༺༻
 */
 
-void	command_rrb(t_stack **b, int display, int color)
+void	command_rrb(t_stacks **s, t_global *g, int display)
 {
 	t_stack		*first_list;
 	t_stack		*rotate_list;
 	t_stack		*penultimate_list;
 
-	if ((*b) == NULL || (*b)->next == NULL)
+	if ((*s)->b == NULL || (*s)->b->next == NULL)
 		return ;
-	first_list = *b;
-	penultimate_list = *b;
+	first_list = (*s)->b;
+	penultimate_list = (*s)->b;
 	while (penultimate_list->next->next != NULL)
 		penultimate_list = penultimate_list->next;
 	rotate_list = penultimate_list->next;
 	penultimate_list->next = NULL;
 	rotate_list->next = first_list;
-	*b = rotate_list;
-	if (display)
-		write_command("rrb", color);
+	(*s)->b = rotate_list;
+	if (g->visualize)
+		display_stacks(*s, g);
+	else if (display)
+		write_command("rrb", g);
 }
 
 /*
@@ -267,10 +285,12 @@ void	command_rrb(t_stack **b, int display, int color)
 **			༺༻
 */
 
-void	command_rrr(t_stacks *s, int display, int color)
+void	command_rrr(t_stacks *s, t_global *g, int display)
 {
-	command_rra(&s->a, 0, color);
-	command_rrb(&s->b, 0, color);
-	if (display)
-		write_command("rrr", color);
+	command_rra(&s, g, 0);
+	command_rrb(&s, g, 0);
+	if (g->visualize)
+		display_stacks(s, g);
+	else if (display)
+		write_command("rrr", g);
 }

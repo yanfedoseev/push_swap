@@ -3,12 +3,15 @@ NAME_CH		= 	checker
 
 CFLAGS 		= 	-Wall -Wextra -Werror
 
-SRC_PS 		= 	push_swap.c validation.c commands.c \
-				my.c my_exit.c sort_3_and_5_element.c \
+SRC_COMMON	=	validation.c commands.c my.c my_exit.c display.c
+
+SRC_PS 		= 	$(SRC_COMMON) \
+				push_swap.c \
+				sort_3_and_5_element.c \
 				global_sort.c finding_place.c
 
-SRC_CH 		= 	checker.c validation.c commands.c \
-				my.c my_exit.c
+SRC_CH 		= 	$(SRC_COMMON) \
+				checker.c
 
 OBJ_DIR 	= 	obj
 
