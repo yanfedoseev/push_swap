@@ -2,13 +2,19 @@
 
 void	write_command(char *str, t_global *g)
 {
-	if (g->color && str[0] == 's')
-		write(1, "\x1b[33m", 5);
-	else if (g->color && str[0] == 'r' && str[1] == 'r' )
-		write(1, "\x1b[31m", 5);
-	else if (g->color && str [0] == 'r')
-		write(1, "\x1b[32m", 5);
-	ft_printf("%s\x1b[0m\n", str);
+	if (g->file)
+		write(g->fd, str, ft_strlen(str));
+	else
+	{
+		if (g->color && str[0] == 's')
+			write(1, "\x1b[33m", 5);
+		else if (g->color && str[0] == 'r' && str[1] == 'r' )
+			write(1, "\x1b[31m", 5);
+		else if (g->color && str [0] == 'r')
+			write(1, "\x1b[32m", 5);
+		write(1, str, ft_strlen(str));
+		write(1, "\x1b[0m", 4);
+	}
 }
 
 /*
@@ -33,7 +39,7 @@ void	command_sa(t_stacks *s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(s, g);
 	else if (display)
-		write_command("sa", g);
+		write_command("sa\n", g);
 }
 
 /*
@@ -58,7 +64,7 @@ void	command_sb(t_stacks *s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(s, g);
 	else if (display)
-		write_command("sb", g);
+		write_command("sb\n", g);
 }
 
 /*
@@ -76,7 +82,7 @@ void	command_ss(t_stacks *s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(s, g);
 	else if (display)
-		write_command("ss", g);
+		write_command("ss\n", g);
 }
 
 /*
@@ -104,7 +110,7 @@ void	command_pa(t_stacks *s, t_global **g, int display)
 	if ((*g)->visualize)
 		display_stacks(s, *g);
 	else if (display)
-		write_command("pa", *g);
+		write_command("pa\n", *g);
 }
 
 /*
@@ -132,7 +138,7 @@ void	command_pb(t_stacks *s, t_global **g, int display)
 	if ((*g)->visualize)
 		display_stacks(s, *g);
 	else if (display)
-		write_command("pb", *g);
+		write_command("pb\n", *g);
 }
 
 /*
@@ -163,7 +169,7 @@ void	command_ra(t_stacks **s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(*s, g);
 	else if (display)
-		write_command("ra", g);
+		write_command("ra\n", g);
 }
 
 /*
@@ -194,7 +200,7 @@ void	command_rb(t_stacks **s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(*s, g);
 	else if (display)
-		write_command("rb", g);
+		write_command("rb\n", g);
 }
 
 /*
@@ -212,7 +218,7 @@ void	command_rr(t_stacks *s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(s, g);
 	else if (display)
-		write_command("rr", g);
+		write_command("rr\n", g);
 }
 
 /*
@@ -243,7 +249,7 @@ void	command_rra(t_stacks **s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(*s, g);
 	else if (display)
-		write_command("rra", g);
+		write_command("rra\n", g);
 }
 
 /*
@@ -274,7 +280,7 @@ void	command_rrb(t_stacks **s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(*s, g);
 	else if (display)
-		write_command("rrb", g);
+		write_command("rrb\n", g);
 }
 
 /*
@@ -292,5 +298,5 @@ void	command_rrr(t_stacks *s, t_global *g, int display)
 	if (g->visualize)
 		display_stacks(s, g);
 	else if (display)
-		write_command("rrr", g);
+		write_command("rrr\n", g);
 }

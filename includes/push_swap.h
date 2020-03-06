@@ -2,9 +2,11 @@
 # define PUSH_SWAP_H
 # define MAXINT 2147483647
 # define MININT -2147483648
+# define MAX_SIZE 8
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include "./libft/libft.h"
 
 typedef struct		s_stack
@@ -12,6 +14,7 @@ typedef struct		s_stack
 	int				data;
 	int				step;
 	int				rotate;
+	int				size_v;
 	struct s_stack	*next;
 }					t_stack;
 
@@ -25,6 +28,9 @@ typedef struct		s_global
 {
 	int				color;
 	int				visualize;
+	int				visualize_k;
+	int				file;
+	int				fd;
 	int				size_a;
 	int				size_b;
 	int				min;
@@ -95,5 +101,7 @@ int					validation(int ac, char **av, t_global *g);
 void				write_command(char *str, t_global *g);
 void				not_error_but_bonus(t_stacks *stacks, t_global *g, char *line);
 void				display_stacks(t_stacks *stacks, t_global *g);
+void				init_global(t_global *g, char *opt);
+void				set_size_for_visualizer(t_stacks *s, int *input);
 
 #endif

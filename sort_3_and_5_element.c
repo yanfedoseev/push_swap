@@ -44,8 +44,12 @@ void	sort_3_element(t_stacks *s, t_global *g)
 
 void	sort_5_element(t_stacks *s, t_global *g)
 {
+	// puts("OK");
+	// printf("size b = %i\n", g->size_b);
 	while (g->size_b < 2)
 	{
+		// printf("blyat\n");
+		// printf("a data = %i\ng min = %i\ng max = %i\nsize b = %i\n", s->a->data, g->min, g->max, g->size_b);
 		if (s->a->data == g->min || s->a->data == g->max)
 			command_pb(s, &g, 1);
 		else

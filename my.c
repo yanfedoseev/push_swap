@@ -47,7 +47,7 @@ int		get_args(int *input, int ac, char **av, t_global *g)
 	int			j;
 	int			*tmp;
 
-	i = 0 + g->color + g->visualize;
+	i = 0 + g->color + g->visualize + g->visualize_k + g->file;
 	while (++i < ac)
 	{
 		nmbr = ft_count_words(av[i], ' ');
@@ -119,6 +119,47 @@ int		sort_input(int *input)
 	return (is_not_sorted);
 }
 
+void	init_global(t_global *g, char *opt)
+{
+	g->color = 0;
+	g->visualize = 0;
+	g->visualize_k = 0;
+	g->file = 0;
+	if (!(ft_strcmp(opt, "-c")))
+		g->color = 1;
+	else if (!(ft_strcmp(opt, "-v")))
+		g->visualize = 1;
+	else if (!(ft_strcmp(opt, "-vk")))
+		g->visualize_k = 1;
+	else if (!(ft_strcmp(opt, "-f")))
+	{
+		g->file = 1;
+		remove("my_file");
+		g->fd = open("my_file", O_WRONLY | O_CREAT);
+	}
+}
+
+void	set_size_for_visualizer(t_stacks *s, int *input)
+{
+	int			i;
+	t_stack		*start;
+
+	start = s->a;
+	while (s->a)
+	{
+		i = 1;
+		while (s->a->data != input[i])
+			i++;
+		s->a->size_v = i;
+		if ((s->a->size_v * MAX_SIZE) % input[0])
+			s->a->size_v = (int)(s->a->size_v * MAX_SIZE / input[0]) + 1;
+		else
+			s->a->size_v = s->a->size_v * MAX_SIZE / input[0];
+		s->a = s->a->next;
+	}
+	s->a = start;
+}
+
 int		init(t_stacks *stacks, t_global *g, int *input, int i)
 {
 	stacks->a = create_stack(input, input[0]);
@@ -129,7 +170,8 @@ int		init(t_stacks *stacks, t_global *g, int *input, int i)
 	g->min = input[1];
 	g->max = input[input[0]];
 	g->avg = input[input[0] / 2 + 1];
-
+	if (g->visualize_k)
+		set_size_for_visualizer(stacks, input);
 	return (1);
 }
 
@@ -154,5 +196,7 @@ void	free_data(t_stacks *s, t_global *g)
 		free(buff);
 		i++;
 	}
+	if (g->file)
+		close(g->fd);
 	free(g);
 }

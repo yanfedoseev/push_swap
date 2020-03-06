@@ -6,7 +6,7 @@ void	display_stacks(t_stacks *stacks, t_global *g)
 	t_stack	*b;
 	int		diff;
 
-	if (g->visualize)
+	if (g->visualize || g->visualize_k)
 	{
         usleep(200000);
 		write(1, "\e[1;1H\e[2J", 10);

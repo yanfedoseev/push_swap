@@ -101,8 +101,7 @@ int		main(int ac, char **av)
 		my_exit(0);
 	if (!(g = (t_global *)malloc(sizeof(t_global))))
 		my_exit(0);
-	g->color = 0;
-	g->visualize = 0;
+	init_global(g, av[1]);
 	if (!(validation(ac, av, g)))
 		error_msg(0);
 	get_args(input, ac, av, g);

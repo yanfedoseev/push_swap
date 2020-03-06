@@ -16,20 +16,24 @@ void	sort(t_stacks *s, t_global *g)
 		global_sort(s, g);
 }
 
-void	check_option(char *opt, t_global *g)
-{
-	if (!(ft_strcmp(opt, "-c")))
-		g->color = 1;
-	else if (!(ft_strcmp(opt, "-v")))
-		g->visualize = 1;
-}
+// void	check_option(char *opt, t_global *g)
+// {
+// 	if (!(ft_strcmp(opt, "-c")))
+// 		g->color = 1;
+// 	else if (!(ft_strcmp(opt, "-v")))
+// 		g->visualize = 1;
+// 	else if (!(ft_strcmp(opt, "-f")))
+// 		g->file = 1;
+// }
 
 int		main(int ac, char **av)
 {
 	t_stacks	*stacks;
 	t_global	*g;
 	int			input[30000];
+	// int			fd;
 
+	// fd = open("file4", O_WRONLY | O_CREAT);
 	input[0] = 0;
 	if (ac < 2)
 		my_exit(0);
@@ -37,9 +41,9 @@ int		main(int ac, char **av)
 		my_exit(0);
 	if (!(g = (t_global *)malloc(sizeof(t_global))))
 		my_exit(0);
-	g->color = 0;
-	g->visualize = 0;
-	check_option(av[1], g);
+	init_global(g, av[1]);
+	// printf("g->file = %i\n", g->file);
+	// check_option(av[1], g);
 	if (!(validation(ac, av, g)))
 		error_msg(0);
 	if(!(get_args(input, ac, av, g)))
@@ -48,5 +52,6 @@ int		main(int ac, char **av)
 		my_exit(0);
 	sort(stacks, g);
 	free_data(stacks, g);
+	// close(fd);
 	return (0);
 }
