@@ -1,33 +1,33 @@
-NAME_PS		= 	push_swap
-NAME_CH		= 	checker
+NAME_PS		=	push_swap
+NAME_CH		=	checker
 
-CFLAGS 		= 	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
 
 SRC_COMMON	=	validation.c commands.c my.c my_exit.c display.c
 
-SRC_PS 		= 	$(SRC_COMMON) \
+SRC_PS		=	$(SRC_COMMON) \
 				push_swap.c \
 				sort_3_and_5_element.c \
 				global_sort.c finding_place.c
 
-SRC_CH 		= 	$(SRC_COMMON) \
+SRC_CH		=	$(SRC_COMMON) \
 				checker.c
 
-OBJ_DIR 	= 	obj
+OBJ_DIR		=	obj
 
-OBJ_PS 		= 	$(addprefix $(OBJ_DIR)/,$(SRC_PS:.c=.o))
+OBJ_PS		=	$(addprefix $(OBJ_DIR)/,$(SRC_PS:.c=.o))
 
-OBJ_CH 		= 	$(addprefix $(OBJ_DIR)/,$(SRC_CH:.c=.o))
+OBJ_CH		=	$(addprefix $(OBJ_DIR)/,$(SRC_CH:.c=.o))
 
-INC 		= 	-I./includes
-LIBFT_INC 	= 	-I./includes/libft
+INC			=	-I./includes
+LIBFT_INC	=	-I./includes/libft
 
-LIB_BINARY	= 	-L./includes/libft -lft
-LIBFT		= 	./includes/libft/libft.a
+LIB_BINARY	=	-L./includes/libft -lft
+LIBFT		=	./includes/libft/libft.a
 
-all: $(LIBFT) 	./includes/libft/libft.a $(NAME_PS) $(NAME_CH)
+all: $(LIBFT)	./includes/libft/libft.a $(NAME_PS) $(NAME_CH)
 
-$(LIBFT):	
+$(LIBFT):
 	make -C ./includes/libft
 
 $(OBJ_DIR):

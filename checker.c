@@ -1,14 +1,5 @@
 #include "push_swap.h"
 
-/*
-**		read_command -  Функция получает действие в
-** 		виде строки и запускает нужную функцию.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
-*/
-
 void	not_error_but_bonus(t_stacks *stacks, t_global *g, char *line)
 {
 	if (!(ft_strcmp(line, "")))
@@ -45,19 +36,9 @@ void	read_command(t_stacks *stacks, t_global *g, char *line)
 		not_error_but_bonus(stacks, g, line);
 }
 
-/*
-**		get_commands - функция которая ожидает
-** 		ввода команд из консоли и перенаправляет
-** 		команду в функцию обработки.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
-*/
-
 void	get_commands(t_stacks *stacks, t_global *g)
 {
-	char 	*line;
+	char	*line;
 
 	while (get_next_line(0, &line))
 	{
@@ -65,14 +46,6 @@ void	get_commands(t_stacks *stacks, t_global *g)
 		free(line);
 	}
 }
-
-/*
-**		check_if_sorted -  проверка стека на отсортированность.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
-*/
 
 int		check_if_sorted(t_stack *a)
 {

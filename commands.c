@@ -18,13 +18,8 @@ void	write_command(char *str, t_global *g)
 }
 
 /*
-**		sa: swap a - поменяйте местами первые 2 элемента в
-**		верхней части стека a. Ничего не делать, если есть
-**		только один или нет элементов.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	swap a - swap the first 2 elements at the top of stack a.
+**	Do nothing if there	is only one or no elements).
 */
 
 void	command_sa(t_stacks *s, t_global *g, int display)
@@ -44,13 +39,8 @@ void	command_sa(t_stacks *s, t_global *g, int display)
 }
 
 /*
-**		sb: swap b - поменять первые 2 элемента в
-**		верхней части стека b. Ничего не делать, если есть
-**		только один или нет элементов.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	swap b - swap the first 2 elements at the top of stack b.
+**	Do nothing if there	is only one or no elements).
 */
 
 void	command_sb(t_stacks *s, t_global *g, int display)
@@ -70,11 +60,7 @@ void	command_sb(t_stacks *s, t_global *g, int display)
 }
 
 /*
-**		ss: sa и sb одновременно.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	sa and sb at the same time.
 */
 
 void	command_ss(t_stacks *s, t_global *g, int display)
@@ -88,27 +74,22 @@ void	command_ss(t_stacks *s, t_global *g, int display)
 }
 
 /*
-**		pa: push a - возьмите первый элемент вверху
-**		b и поместите его вверху  a. Ничего не делать,
-**		если b пусто.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	push a - take the first element at the top of b and put it at the top of a.
+**	Do nothing if b is empty.
 */
 
 void	command_pa(t_stacks *s, t_global **g, int display)
 {
-	t_stack	*buff;
+	t_stack	*tmp;
 
 	if (s->b == NULL)
 		return ;
+	tmp = s->b;
+	s->b = s->b->next;
+	tmp->next = s->a;
+	s->a = tmp;
 	(*g)->size_a += 1;
 	(*g)->size_b -= 1;
-	buff = s->b;
-	s->b = s->b->next;
-	buff->next = s->a;
-	s->a = buff;
 	if ((*g)->visualize)
 		display_stacks(s, *g);
 	else if (display)
@@ -116,27 +97,22 @@ void	command_pa(t_stacks *s, t_global **g, int display)
 }
 
 /*
-**		pb: push b - возьмите первый элемент в верхней части
-**		a и поместите его в верхней части  b.
-**		Ничего не делать, если  a пусто.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	push b - take the first element at the top of a and put it at the top of b.
+**	Do nothing if a is empty.
 */
 
 void	command_pb(t_stacks *s, t_global **g, int display)
 {
-	t_stack	*buff;
+	t_stack	*tmp;
 
 	if (s->a == NULL)
 		return ;
+	tmp = s->a;
+	s->a = s->a->next;
+	tmp->next = s->b;
+	s->b = tmp;
 	(*g)->size_a -= 1;
 	(*g)->size_b += 1;
-	buff = s->a;
-	s->a = s->a->next;
-	buff->next = s->b;
-	s->b = buff;
 	if ((*g)->visualize)
 		display_stacks(s, *g);
 	else if (display)
@@ -144,30 +120,26 @@ void	command_pb(t_stacks *s, t_global **g, int display)
 }
 
 /*
-**		ra: rotate a -  сдвинуть вверх все элементы стека  a  на 1.
-**		Верхний элемент отправляется вниз.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	rotate a - shift up all elements of stack a by 1.
+**	The first element becomes the last one.
 */
 
 void	command_ra(t_stacks **s, t_global *g, int display)
 {
-	t_stack	*first_list;
-	t_stack	*rotate_list;
-	t_stack	*last_list;
+	t_stack	*new_start;
+	t_stack	*new_end;
+	t_stack	*tmp;
 
 	if ((*s)->a == NULL || (*s)->a->next == NULL)
 		return ;
-	rotate_list = (*s)->a;
-	first_list = (*s)->a->next;
-	last_list = (*s)->a;
-	while (last_list->next != NULL)
-		last_list = last_list->next;
-	rotate_list->next = NULL;
-	last_list->next = rotate_list;
-	(*s)->a = first_list;
+	tmp = (*s)->a;
+	new_start = (*s)->a->next;
+	new_end = (*s)->a;
+	while (new_end->next)
+		new_end = new_end->next;
+	tmp->next = NULL;
+	new_end->next = tmp;
+	(*s)->a = new_start;
 	if (g->visualize)
 		display_stacks(*s, g);
 	else if (display)
@@ -175,30 +147,26 @@ void	command_ra(t_stacks **s, t_global *g, int display)
 }
 
 /*
-**		rb: rotate b -  сдвинуть вверх все элементы стека  b  на 1.
-**		Верхний элемент отправляется вниз.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	rotate b - shift up all elements of stack b by 1.
+**	The first element becomes the last one.
 */
 
 void	command_rb(t_stacks **s, t_global *g, int display)
 {
-	t_stack	*first_list;
-	t_stack	*rotate_list;
-	t_stack	*last_list;
+	t_stack	*new_start;
+	t_stack	*new_end;
+	t_stack	*tmp;
 
 	if ((*s)->b == NULL || (*s)->b->next == NULL)
 		return ;
-	rotate_list = (*s)->b;
-	first_list = (*s)->b->next;
-	last_list = (*s)->b;
-	while (last_list->next != NULL)
-		last_list = last_list->next;
-	rotate_list->next = NULL;
-	last_list->next = rotate_list;
-	(*s)->b = first_list;
+	tmp = (*s)->b;
+	new_start = (*s)->b->next;
+	new_end = (*s)->b;
+	while (new_end->next)
+		new_end = new_end->next;
+	tmp->next = NULL;
+	new_end->next = tmp;
+	(*s)->b = new_start;
 	if (g->visualize)
 		display_stacks(*s, g);
 	else if (display)
@@ -206,11 +174,7 @@ void	command_rb(t_stacks **s, t_global *g, int display)
 }
 
 /*
-**		rr: ra и rb одновременно.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	ra and rb at the same time.
 */
 
 void	command_rr(t_stacks *s, t_global *g, int display)
@@ -224,30 +188,26 @@ void	command_rr(t_stacks *s, t_global *g, int display)
 }
 
 /*
-**		rra: reverse rotate a -  сдвинуть вниз все элементы стека  a на 1.
-**		Нижний элемент отправляется наверх.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	reverse rotate a - shift down all elements of stack a by 1.
+**	The last element becomes the first one.
 */
 
 void	command_rra(t_stacks **s, t_global *g, int display)
 {
-	t_stack		*first_list;
-	t_stack		*rotate_list;
-	t_stack		*penultimate_list;
+	t_stack		*new_start;
+	t_stack		*new_preend;
+	t_stack		*tmp;
 
 	if ((*s)->a == NULL || (*s)->a->next == NULL)
 		return ;
-	first_list = (*s)->a;
-	penultimate_list = (*s)->a;
-	while (penultimate_list->next->next != NULL)
-		penultimate_list = penultimate_list->next;
-	rotate_list = penultimate_list->next;
-	penultimate_list->next = NULL;
-	rotate_list->next = first_list;
-	(*s)->a = rotate_list;
+	tmp = (*s)->a;
+	new_preend = (*s)->a;
+	while (new_preend->next->next)
+		new_preend = new_preend->next;
+	new_start = new_preend->next;
+	new_preend->next = NULL;
+	new_start->next = tmp;
+	(*s)->a = new_start;
 	if (g->visualize)
 		display_stacks(*s, g);
 	else if (display)
@@ -255,30 +215,26 @@ void	command_rra(t_stacks **s, t_global *g, int display)
 }
 
 /*
-**		rrb: reverse rotate b -  сдвинуть вниз все элементы стека  b на 1.
-**		Нижний элемент отправляется наверх.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	reverse rotate b - shift down all elements of stack b by 1.
+**	The last element becomes the first one.
 */
 
 void	command_rrb(t_stacks **s, t_global *g, int display)
 {
-	t_stack		*first_list;
-	t_stack		*rotate_list;
-	t_stack		*penultimate_list;
+	t_stack		*new_start;
+	t_stack		*new_preend;
+	t_stack		*tmp;
 
 	if ((*s)->b == NULL || (*s)->b->next == NULL)
 		return ;
-	first_list = (*s)->b;
-	penultimate_list = (*s)->b;
-	while (penultimate_list->next->next != NULL)
-		penultimate_list = penultimate_list->next;
-	rotate_list = penultimate_list->next;
-	penultimate_list->next = NULL;
-	rotate_list->next = first_list;
-	(*s)->b = rotate_list;
+	tmp = (*s)->b;
+	new_preend = (*s)->b;
+	while (new_preend->next->next)
+		new_preend = new_preend->next;
+	new_start = new_preend->next;
+	new_preend->next = NULL;
+	new_start->next = tmp;
+	(*s)->b = new_start;
 	if (g->visualize)
 		display_stacks(*s, g);
 	else if (display)
@@ -286,11 +242,7 @@ void	command_rrb(t_stacks **s, t_global *g, int display)
 }
 
 /*
-**		rrr: rrа и rrb одновременно.
-**			༺༻
-**		Состояние:	✓
-**		Нормы:		✓
-**			༺༻
+**	rra and rrb at the same time.
 */
 
 void	command_rrr(t_stacks *s, t_global *g, int display)

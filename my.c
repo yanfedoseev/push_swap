@@ -43,7 +43,7 @@ int		get_args(int *input, int ac, char **av, t_global *g)
 {
 	char		**str;
 	int			nmbr;
-	int 		i;
+	int			i;
 	int			j;
 	int			*tmp;
 
@@ -75,7 +75,7 @@ t_stack	*create_stack(int *input, int size)
 
 	if (!(lst = (t_stack *)malloc(sizeof(t_stack))))
 		return(0);
-	
+
 	res = lst;
 
 	i = 0;
@@ -94,10 +94,10 @@ t_stack	*create_stack(int *input, int size)
 
 int		sort_input(int *input)
 {
-	int	i;
-	int size;
-	int	tmp;
-	int	is_not_sorted;
+	int		i;
+	int		size;
+	int		tmp;
+	int		is_not_sorted;
 
 	is_not_sorted = 0;
 	size = input[0];
@@ -147,7 +147,7 @@ void	set_size_for_visualizer(t_stacks *s, int *input)
 	int			i;
 	t_stack		*start;
 
-	
+
 	i = 0;
 	start = s->a;
 	while (s->a)
@@ -183,22 +183,22 @@ int		init(t_stacks *stacks, t_global *g, int *input, int i)
 void	free_data(t_stacks *s, t_global *g)
 {
 	int		i;
-	t_stack	*buff;
+	t_stack	*tmp;
 
 	i = 0;
 	while (i < g->size_a)
 	{
-		buff = s->a;
+		tmp = s->a;
 		s->a = s->a->next;
-		free(buff);
+		free(tmp);
 		i++;
 	}
 	i = 0;
 	while (i < g->size_b)
 	{
-		buff = s->b;
+		tmp = s->b;
 		s->b = s->b->next;
-		free(buff);
+		free(tmp);
 		i++;
 	}
 	if (g->file)

@@ -1,14 +1,14 @@
 #include "push_swap.h"
 
-void    display_elem(t_global *g, t_stack ***s)
+void	display_elem(t_global *g, t_stack ***s)
 {
 	int	size;
-	
+
 	if (g->visualize_k)
 	{
 		size = (**s)->size_v;
 		while(size--)
-    		write(1, "=", 1);
+			write(1, "=", 1);
 		size = MAX_SIZE - (**s)->size_v;
 		while(size--)
 			write(1, " ", 1);
@@ -21,34 +21,34 @@ void    display_elem(t_global *g, t_stack ***s)
 		while(size--)
 			write(1, " ", 1);
 	}
-    **s = (**s)->next;
+	**s = (**s)->next;
 }
 
-void    display_line(t_global *g, t_stack **a, t_stack **b, int *diff)
+void	display_line(t_global *g, t_stack **a, t_stack **b, int *diff)
 {
 	int size;
 
-    if (*diff > 0)
-    {
+	if (*diff > 0)
+	{
 		display_elem(g, &a);
 		(*diff)--;
-    }
+	}
 	else
 	{
 		size = MAX_SIZE;
 		while(size--)
 			write(1, " ", 1);
 	}
-    write(1, "\t\t\t\t", 4);
-    if (*diff < 0)
+	write(1, "\t\t\t\t", 4);
+	if (*diff < 0)
 	{
-        display_elem(g, &b);
+		display_elem(g, &b);
 		(*diff)++;
 	}
 	write(1, "\n", 1);
 }
 
-void    display_rest(t_global *g, t_stack **a, t_stack **b)
+void	display_rest(t_global *g, t_stack **a, t_stack **b)
 {
 	while (*a)
 	{
@@ -61,21 +61,13 @@ void    display_rest(t_global *g, t_stack **a, t_stack **b)
 
 void	display_stacks(t_stacks *stacks, t_global *g)
 {
-	// t_stack *tmp;
-	// tmp = stacks->a;
-	// while (tmp)
-	// {
-	// 	printf("data = %i    size = %i\n", tmp->data, tmp->size_v);
-	// 	tmp = tmp->next;
-	// }
-
 	t_stack	*a;
 	t_stack	*b;
 	int		diff;
 
 	if (g->visualize)
 	{
-        usleep(100000);
+		usleep(100000);
 		write(1, "\e[1;1H\e[2J", 10);
 	}
 	a = stacks->a;
@@ -84,12 +76,4 @@ void	display_stacks(t_stacks *stacks, t_global *g)
 	while (diff)
 		display_line(g, &a, &b, &diff);
 	display_rest(g, &a, &b);
-
-	// a = stacks->a;
-	// while (a)
-	// {
-	// 	printf("data = %i    size = %i\n", a->data, (int)a->size_v);
-	// 	a = a->next;
-	// }
-	// stacks->a->data = g->size_a;
 }
