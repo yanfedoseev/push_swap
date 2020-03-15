@@ -10,14 +10,14 @@
 **			༺༻
 */
 
-void	ft_help_finding_place(t_stacks *s, int *action, int *buff)
+void	ft_help_finding_place(t_stacks *s, int *action, int *data)
 {
 	while (s->a)
 	{
-		*buff = s->a->data;
+		*data = s->a->data;
 		if (s->b->data > s->a->data)
 		{
-			*action += 1;
+			(*action)++;
 			if (s->b->data < s->a->next->data)
 				break ;
 			s->a = s->a->next;
@@ -25,16 +25,16 @@ void	ft_help_finding_place(t_stacks *s, int *action, int *buff)
 		else
 			break ;
 	}
-	if (ft_smaller_element_detection(s->a, *buff, s->b->data) == 1)
-	{
-		while (s->a)
-		{
-			if (s->a->data < *buff && s->a->data > s->b->data)
-				break ;
-			*action += 1;
-			s->a = s->a->next;
-		}
-	}
+	// if (ft_smaller_element_detection(s->a, *data, s->b->data) == 1)
+	// {
+	// 	while (s->a)
+	// 	{
+	// 		if (s->a->data < *data && s->a->data > s->b->data)
+	// 			break ;
+	// 		(*action)++;
+	// 		s->a = s->a->next;
+	// 	}
+	// }
 }
 
 /*
@@ -82,21 +82,19 @@ int		ft_finding_place(t_stacks *s, t_steps *steps, int size_a, int min)
 **			༺༻
 */
 
-int		ft_smaller_element_detection(t_stack *a, int buff, int src)
-{
-	t_stack	*save;
-	int		ret;
+// int		ft_smaller_element_detection(t_stack *a, int buff, int src)
+// {
+// 	t_stack	*tmp;
 
-	save = a;
-	ret = 0;
-	while (save && ret == 0)
-	{
-		if (save->data < buff && save->data > src)
-			ret = 1;
-		save = save->next;
-	}
-	return (ret);
-}
+// 	tmp = a;
+// 	while (tmp)
+// 	{
+// 		if (tmp->data < buff && tmp->data > src)
+// 			return (1);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
 
 /*
 **		ft_count_to_min - Функция возвращает

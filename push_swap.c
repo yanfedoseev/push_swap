@@ -3,9 +3,9 @@
 void	sort(t_stacks *s, t_global *g)
 {
 	if (g->size_a <= 3)
-		sort_3_element(s, g);
+		sort_3(s, g);
 	else if (g->size_a <= 5)
-		sort_5_element(s, g);
+		sort_5(s, g);
 	else
 		global_sort(s, g);
 }

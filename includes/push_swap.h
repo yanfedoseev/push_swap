@@ -53,21 +53,24 @@ void				free_data(t_stacks *s, t_global *g);
 void				sort(t_stacks *s, t_global *g);
 void				ft_null(t_global *g);
 
-void				sort_3_element(t_stacks *s, t_global *g);
-void				sort_5_element(t_stacks *s, t_global *g);
-int					ft_max(t_stack *s);
+void				sort_3(t_stacks *s, t_global *g);
+void				sort_5(t_stacks *s, t_global *g);
+int					get_max(t_stack *s);
 
 void				ft_quick_sort(int *array, int start, int end);
 int					command_partition(int *array, int start, int end);
 
 void				global_sort(t_stacks *s, t_global *g);
 void				ft_start_sort(t_stacks *s, t_global *g);
-void				ft_steps_markup(t_stack *stack, int count);
-void				ft_minimum_insertion_steps(t_stacks *s, t_steps *steps, int size_a);
-void				ft_instruction_execution(t_stacks *s, t_global *g, t_steps *steps);
+void				set_number_of_steps_to_top(t_stack *s, int stack_size);
+void				ft_minimum_insertion_steps(t_stacks *s, \
+						t_steps *steps, int size_a);
+void				ft_instruction_execution(t_stacks *s, \
+						t_global *g, t_steps *steps);
 
 void				ft_help_finding_place(t_stacks *s, int *action, int *buff);
-int					ft_finding_place(t_stacks *s, t_steps *steps, int size_a, int min);
+int					ft_finding_place(t_stacks *s, \
+						t_steps *steps, int size_a, int min);
 int					ft_smaller_element_detection(t_stack *a, int buff, int src);
 int					ft_count_to_min(t_stack *a, int min);
 
@@ -99,7 +102,8 @@ int					init(t_stacks *stacks, t_global *g, int *input, int i);
 void				error_msg(int i);
 int					validation(int ac, char **av, t_global *g);
 void				write_command(char *str, t_global *g);
-void				not_error_but_bonus(t_stacks *stacks, t_global *g, char *line);
+void				not_error_but_bonus(t_stacks *stacks, \
+						t_global *g, char *line);
 void				display_stacks(t_stacks *stacks, t_global *g);
 void				init_global(t_global *g, char *opt);
 void				set_size_for_visualizer(t_stacks *s, int *input);

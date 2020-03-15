@@ -50,8 +50,8 @@ void	ft_start_sort(t_stacks *s, t_global *g)
 		step->size_b = -1;
 		step->dest_a = 0;
 		step->dest_b = 0;
-		ft_steps_markup(s->a, g->size_a);
-		ft_steps_markup(s->b, g->size_b);
+		set_number_of_steps_to_top(s->a, g->size_a);
+		set_number_of_steps_to_top(s->b, g->size_b);
 		ft_minimum_insertion_steps(s, step, g->size_a);
 		ft_instruction_execution(s, g, step);
 	}
@@ -67,7 +67,7 @@ void	ft_start_sort(t_stacks *s, t_global *g)
 }
 
 /*
-**		ft_steps_markup - разметка каждого элемента стека
+**		set_number_of_steps_to_top - разметка каждого элемента стека
 **		количеством шагов которое нужно, чтоб элемент
 ** 		попал на верх(на первую позицию).
 **			༺༻
@@ -76,28 +76,26 @@ void	ft_start_sort(t_stacks *s, t_global *g)
 **			༺༻
 */
 
-void	ft_steps_markup(t_stack *stack, int count)
+void	set_number_of_steps_to_top(t_stack *s, int stack_size)
 {
 	int		i;
-	int		iter;
-	t_stack	*buff;
+	t_stack	*tmp;
 
+	tmp = s;
 	i = -1;
-	iter = count / 2;
-	buff = stack;
-	while (++i <= iter)
+	while (++i <= stack_size / 2)
 	{
-		buff->step = i;
-		buff->rotate = 1;
-		buff = buff->next;
+		tmp->step = i;
+		tmp->rotate = 1;
+		tmp = tmp->next;
 	}
-	if (count % 2 == 0)
+	if (stack_size % 2 == 0)
 		i--;
 	while (--i > 0)
 	{
-		buff->step = i;
-		buff->rotate = -1;
-		buff = buff->next;
+		tmp->step = i;
+		tmp->rotate = -1;
+		tmp = tmp->next;
 	}
 }
 
@@ -113,19 +111,19 @@ void	ft_steps_markup(t_stack *stack, int count)
 void	ft_minimum_insertion_steps(t_stacks *s, t_steps *steps, int size_a)
 {
 	int		min_action;
-	t_stack	*first_a;
-	t_stack	*first_b;
+	t_stack	*tmp_a;
+	t_stack	*tmp_b;
 
 	min_action = -1;
-	first_a = s->a;
-	first_b = s->b;
+	tmp_a = s->a;
+	tmp_b = s->b;
 	while (s->b)
 	{
 		min_action = ft_finding_place(s, steps, size_a, min_action);
-		s->a = first_a;
+		s->a = tmp_a;
 		s->b = s->b->next;
 	}
-	s->b = first_b;
+	s->b = tmp_b;
 }
 
 /*
