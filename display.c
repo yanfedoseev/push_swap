@@ -77,3 +77,20 @@ void	display_stacks(t_stacks *stacks, t_global *g)
 		display_line(g, &a, &b, &diff);
 	display_rest(g, &a, &b);
 }
+
+void	write_command(char *str, t_global *g)
+{
+	if (g->file)
+		write(g->fd, str, ft_strlen(str));
+	else
+	{
+		if (g->color && str[0] == 's')
+			write(1, "\x1b[33m", 5);
+		else if (g->color && str[0] == 'r' && str[1] == 'r' )
+			write(1, "\x1b[31m", 5);
+		else if (g->color && str [0] == 'r')
+			write(1, "\x1b[32m", 5);
+		write(1, str, ft_strlen(str));
+		write(1, "\x1b[0m", 4);
+	}
+}

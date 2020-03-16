@@ -54,3 +54,13 @@ void	sort_5(t_stacks *s, t_global *g)
 		command_sa(s, g, 1);
 	command_ra(&s, g, 1);
 }
+
+void	sort(t_stacks *s, t_global *g)
+{
+	if (g->size_a <= 3)
+		sort_3(s, g);
+	else if (g->size_a <= 5)
+		sort_5(s, g);
+	else
+		main_sort(s, g);
+}
