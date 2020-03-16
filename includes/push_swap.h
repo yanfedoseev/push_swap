@@ -4,7 +4,7 @@
 # define MININT -2147483648
 # define MAX_SIZE 8
 # include <unistd.h>
-# include <stdio.h>
+// # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include "./libft/libft.h"
@@ -42,14 +42,14 @@ typedef struct		s_steps
 {
 	int				size_a;
 	int				size_b;
-	int				dest_a;
-	int				dest_b;
+	int				rotate_a;
+	int				rotate_b;
 }					t_steps;
 
 int					ft_only_spaces(const char *str);
 
 t_stack				*ft_create_stack(const int *buff, int count);
-void				free_data(t_stacks *s, t_global *g);
+void				free_memory(t_stacks *s, t_global *g);
 void				sort(t_stacks *s, t_global *g);
 void				ft_null(t_global *g);
 
@@ -60,19 +60,20 @@ int					get_max(t_stack *s);
 void				ft_quick_sort(int *array, int start, int end);
 int					command_partition(int *array, int start, int end);
 
-void				global_sort(t_stacks *s, t_global *g);
-void				ft_start_sort(t_stacks *s, t_global *g);
+void				main_sort(t_stacks *s, t_global *g);
+void				my_sort(t_stacks *s, t_global *g);
 void				set_number_of_steps_to_top(t_stack *s, int stack_size);
-void				ft_minimum_insertion_steps(t_stacks *s, \
+void				find_element_to_push_a(t_stacks *s, \
 						t_steps *steps, int size_a);
-void				ft_instruction_execution(t_stacks *s, \
+void				push_element_to_a(t_stacks *s, \
 						t_global *g, t_steps *steps);
 
-void				ft_help_finding_place(t_stacks *s, int *action, int *buff);
-int					ft_finding_place(t_stacks *s, \
-						t_steps *steps, int size_a, int min);
+// void				get_number_of_steps(t_stacks *s, int *action, int *buff);
+void				get_number_of_steps(t_stacks *s, int *action);
+void				element_search(t_stacks *s, \
+						t_steps *steps, int size_a, int *min);
 int					ft_smaller_element_detection(t_stack *a, int buff, int src);
-int					ft_count_to_min(t_stack *a, int min);
+int					get_index_of_min_element(t_stack *a, int min);
 
 void				command_ra(t_stacks **s, t_global *g, int display);
 void				command_rb(t_stacks **s, t_global *g, int display);

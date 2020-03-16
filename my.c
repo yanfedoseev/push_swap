@@ -137,8 +137,8 @@ void	init_global(t_global *g, char *opt)
 	else if (!(ft_strcmp(opt, "-f")))
 	{
 		g->file = 1;
-		remove("my_file");
-		g->fd = open("my_file", O_WRONLY | O_CREAT);
+		// remove("my_file");
+		g->fd = open("my_file", O_WRONLY | O_CREAT | O_TRUNC);
 	}
 }
 
@@ -180,7 +180,7 @@ int		init(t_stacks *stacks, t_global *g, int *input, int i)
 	return (1);
 }
 
-void	free_data(t_stacks *s, t_global *g)
+void	free_memory(t_stacks *s, t_global *g)
 {
 	int		i;
 	t_stack	*tmp;
@@ -201,6 +201,7 @@ void	free_data(t_stacks *s, t_global *g)
 		free(tmp);
 		i++;
 	}
+	free(s);
 	if (g->file)
 		close(g->fd);
 	free(g);

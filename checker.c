@@ -85,6 +85,6 @@ int		main(int ac, char **av)
 		write(1, "OK\n", 3);
 	else
 		write(1, "KO\n", 3);
-	free_data(stacks, g);
+	free_memory(stacks, g);
 	return (0);
 }

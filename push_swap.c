@@ -7,7 +7,7 @@ void	sort(t_stacks *s, t_global *g)
 	else if (g->size_a <= 5)
 		sort_5(s, g);
 	else
-		global_sort(s, g);
+		main_sort(s, g);
 }
 
 int		main(int ac, char **av)
@@ -31,6 +31,6 @@ int		main(int ac, char **av)
 	if(!(init(stacks, g, input, 0)))
 		my_exit(0);
 	sort(stacks, g);
-	free_data(stacks, g);
+	free_memory(stacks, g);
 	return (0);
 }
