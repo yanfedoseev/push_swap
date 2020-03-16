@@ -108,6 +108,6 @@ void	init_global(t_global *g, char *opt)
 	else if (!(ft_strcmp(opt, "-f")))
 	{
 		g->file = 1;
-		g->fd = open("my_file", O_WRONLY | O_CREAT | O_TRUNC);
+		g->fd = open("my_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
 	}
 }
